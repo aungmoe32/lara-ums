@@ -38,4 +38,13 @@ class Role extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($role) {
+            $role->permissions()->detach();
+        });
+    }
 }
