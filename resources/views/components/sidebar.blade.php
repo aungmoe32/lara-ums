@@ -1,8 +1,8 @@
 <div class="bg-gray-900 text-white w-64 min-h-screen flex flex-col">
     <!-- App Logo -->
-    <div class="p-4 text-3xl font-bold">
+    {{-- <div class="p-4 text-3xl font-bold">
         <a href="{{ route('dashboard') }}" class="text-white">UMS</a>
-    </div>
+    </div> --}}
 
     <!-- Navigation Links -->
     <div class="flex-1 overflow-y-auto">
@@ -23,11 +23,11 @@
                     </svg>
                 </button>
                 <div x-show="open" class="pl-4">
-                    @can('read', 'User')
+                    @can('viewAny', App\Models\User::class)
                         <a href="{{ route('users.index') }}"
                             class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">User List</a>
                     @endcan
-                    @can('create', 'User')
+                    @can('create', App\Models\User::class)
                         <a href="{{ route('users.create') }}"
                             class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Create User</a>
                     @endcan

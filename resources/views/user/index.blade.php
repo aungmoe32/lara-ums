@@ -68,19 +68,22 @@
                                         </td>
                                         <td class="py-4 px-4 text-sm">
                                             <div class="flex space-x-2">
-                                                <a href="{{ route('users.edit', $user) }}"
-                                                    class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Edit</a>
                                                 <a href="{{ route('users.show', $user) }}"
                                                     class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">View</a>
-
-                                                <form method="POST" action="{{ route('users.destroy', $user) }}"
-                                                    class="inline"
-                                                    onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>
-                                                </form>
+                                                @can('update', $user)
+                                                    <a href="{{ route('users.edit', $user) }}"
+                                                        class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Edit</a>
+                                                @endcan
+                                                @can('delete', $user)
+                                                    <form method="POST" action="{{ route('users.destroy', $user) }}"
+                                                        class="inline"
+                                                        onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>
+                                                    </form>
+                                                @endcan
                                             </div>
                                         </td>
                                     </tr>

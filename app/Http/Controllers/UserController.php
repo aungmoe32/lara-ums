@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     public function index(Request $request): View
     {
         $users = User::with('role')->paginate(10);

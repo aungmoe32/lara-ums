@@ -19,7 +19,9 @@
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex">
         <!-- Sidebar -->
-        <x-sidebar />
+        @if (!request()->is('dashboard'))
+            <x-sidebar />
+        @endif
 
         <div class="flex-1">
             @include('layouts.navigation')

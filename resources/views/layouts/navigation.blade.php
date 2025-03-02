@@ -2,7 +2,11 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex"></div>
+            <div class="flex">
+                <a href="{{ route('dashboard') }}" class="flex items-center">
+                    <span class="text-3xl font-bold text-gray-800 dark:text-gray-200">UMS</span>
+                </a>
+            </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
