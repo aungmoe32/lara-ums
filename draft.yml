@@ -1,0 +1,28 @@
+models:
+  Role:
+    name: string
+    relationships:
+      belongsToMany: Permission
+
+  Permission:
+    name: string
+    feature_id: id foreign
+    relationships:
+      belongsToMany: Role
+
+  Feature:
+    name: string
+    relationships:
+      hasMany: Permission
+controllers:
+  Role:
+    resource: web
+
+  Permission:
+    resource: web
+
+  Feature:
+    resource: web
+
+  User:
+    resource: web

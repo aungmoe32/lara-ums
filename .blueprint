@@ -1,0 +1,50 @@
+created:
+    - app/Http/Controllers/RoleController.php
+    - app/Http/Controllers/PermissionController.php
+    - app/Http/Controllers/FeatureController.php
+    - app/Http/Controllers/UserController.php
+    - database/factories/RoleFactory.php
+    - database/factories/PermissionFactory.php
+    - database/factories/FeatureFactory.php
+    - database/migrations/2025_03_02_031736_create_roles_table.php
+    - database/migrations/2025_03_02_031737_create_permissions_table.php
+    - database/migrations/2025_03_02_031738_create_features_table.php
+    - database/migrations/2025_03_02_031739_create_permission_role_table.php
+    - app/Models/Role.php
+    - app/Models/Permission.php
+    - app/Models/Feature.php
+    - tests/Feature/Http/Controllers/RoleControllerTest.php
+    - tests/Feature/Http/Controllers/PermissionControllerTest.php
+    - tests/Feature/Http/Controllers/FeatureControllerTest.php
+    - tests/Feature/Http/Controllers/UserControllerTest.php
+    - app/Http/Requests/RoleStoreRequest.php
+    - app/Http/Requests/RoleUpdateRequest.php
+    - app/Http/Requests/PermissionStoreRequest.php
+    - app/Http/Requests/PermissionUpdateRequest.php
+    - app/Http/Requests/FeatureStoreRequest.php
+    - app/Http/Requests/FeatureUpdateRequest.php
+    - app/Http/Requests/UserStoreRequest.php
+    - app/Http/Requests/UserUpdateRequest.php
+    - resources/views/role/index.blade.php
+    - resources/views/role/create.blade.php
+    - resources/views/role/show.blade.php
+    - resources/views/role/edit.blade.php
+    - resources/views/permission/index.blade.php
+    - resources/views/permission/create.blade.php
+    - resources/views/permission/show.blade.php
+    - resources/views/permission/edit.blade.php
+    - resources/views/feature/index.blade.php
+    - resources/views/feature/create.blade.php
+    - resources/views/feature/show.blade.php
+    - resources/views/feature/edit.blade.php
+    - resources/views/user/index.blade.php
+    - resources/views/user/create.blade.php
+    - resources/views/user/show.blade.php
+    - resources/views/user/edit.blade.php
+updated:
+    - routes/web.php
+models:
+    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
+    Role: { name: string, relationships: { belongsToMany: Permission } }
+    Permission: { name: string, feature_id: 'id foreign', relationships: { belongsToMany: Role } }
+    Feature: { name: string, relationships: { hasMany: Permission } }
