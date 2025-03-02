@@ -54,9 +54,9 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
         ]);
 
-        $features = Feature::all();
-        foreach ($features as $feature) {
-            $adminRole->permissions()->sync($feature->permissions->pluck('id'));
+        $permissions = Permission::all();
+        foreach ($permissions as $permission) {
+            $adminRole->permissions()->attach($permission->id);
         }
         // Assign read permissions to User role
         $readPermissions = Permission::where('name', 'like', '%read%')->get();

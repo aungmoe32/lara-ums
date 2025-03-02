@@ -52,4 +52,24 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    /**
+     * Check if the user has a permission for a specific feature.
+     *
+     * @param string $permissionName
+     * @param string $featureName
+     * @return bool
+     */
+    public function hasFeaturePermission(string $permissionName, string $featureName): bool
+    {
+        if (!$this->role) {
+            return false;
+        }
+
+        return $this->role->permissions->contains(function ($permission) use ($permissionName, $featureName) {
+            return $permission->name === $permissionName &&
+                $permission->feature &&
+                $permission->feature->name === $featureName;
+        });
+    }
 }

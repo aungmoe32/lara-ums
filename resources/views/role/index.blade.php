@@ -55,17 +55,24 @@
                                         </td>
                                         <td class="py-4 px-4 text-sm">
                                             <div class="flex space-x-2">
-                                                <a href="{{ route('roles.edit', $role) }}"
-                                                    class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Edit</a>
-
-                                                <form method="POST" action="{{ route('roles.destroy', $role) }}"
-                                                    class="inline"
-                                                    onsubmit="return confirm('Are you sure you want to delete this role?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>
-                                                </form>
+                                                @can('view', $role)
+                                                    <a href="{{ route('roles.show', $role) }}"
+                                                        class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">View</a>
+                                                @endcan
+                                                @can('update', $role)
+                                                    <a href="{{ route('roles.edit', $role) }}"
+                                                        class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Edit</a>
+                                                @endcan
+                                                @can('delete', $role)
+                                                    <form method="POST" action="{{ route('roles.destroy', $role) }}"
+                                                        class="inline"
+                                                        onsubmit="return confirm('Are you sure you want to delete this role?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>
+                                                    </form>
+                                                @endcan
                                             </div>
                                         </td>
                                     </tr>

@@ -23,10 +23,14 @@
                     </svg>
                 </button>
                 <div x-show="open" class="pl-4">
-                    <a href="{{ route('users.index') }}"
-                        class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">User List</a>
-                    <a href="{{ route('users.create') }}"
-                        class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Create User</a>
+                    @can('read', 'User')
+                        <a href="{{ route('users.index') }}"
+                            class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">User List</a>
+                    @endcan
+                    @can('create', 'User')
+                        <a href="{{ route('users.create') }}"
+                            class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Create User</a>
+                    @endcan
                 </div>
             </div>
 
@@ -46,10 +50,14 @@
                     </svg>
                 </button>
                 <div x-show="open" class="pl-4">
-                    <a href="{{ route('roles.index') }}"
-                        class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Role List</a>
-                    <a href="{{ route('roles.create') }}"
-                        class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Create Role</a>
+                    @can('viewAny', App\Models\Role::class)
+                        <a href="{{ route('roles.index') }}"
+                            class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Role List</a>
+                    @endcan
+                    @can('create', App\Models\Role::class)
+                        <a href="{{ route('roles.create') }}"
+                            class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Create Role</a>
+                    @endcan
                 </div>
             </div>
         </nav>

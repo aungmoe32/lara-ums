@@ -10,6 +10,7 @@ class FeatureSeeder extends Seeder
     public function run()
     {
         Feature::create(['name' => 'User']);
+        Feature::create(['name' => 'Role']);
         Feature::create(['name' => 'Product']);
     }
 }
