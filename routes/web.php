@@ -3,15 +3,20 @@
 use App\Models\Tenant;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TenantController;
+use App\Models\User;
 
-Route::get('/create', function () {
-    $tenant1 = Tenant::create(['id' => 'foo']);
-    $tenant1->domains()->create(['domain' => 'foo.laraums.test']);
-    return 1;
+Route::get('/', function () {
+    return redirect()->route('tenants.index');
 });
 
-Route::get('/delete', function () {
-    $tenant1 = App\Models\Tenant::find('foo');
-    $tenant1->delete();
-    return 1;
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Tenant management routes
+    Route::resource('tenants', TenantController::class);
 });
+
+require __DIR__ . '/auth.php';

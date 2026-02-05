@@ -60,6 +60,29 @@
                     @endcan
                 </div>
             </div>
+
+            <!-- Tenants Section -->
+            <div x-data="{ open: true }" class="mb-2">
+                <button @click="open = !open"
+                    class="w-full flex items-center py-2 px-4 text-white hover:bg-gray-800 rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-2m-14 0h2m-2 0h-2m2 0V9a2 2 0 012-2h2a2 2 0 012 2v10"/>
+                    </svg>
+                    <span class="flex-1 text-left">Tenants</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform" :class="{ 'rotate-180': open }"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div x-show="open" class="pl-4">
+                    <a href="{{ route('tenants.index') }}"
+                        class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Tenant List</a>
+                    <a href="{{ route('tenants.create') }}"
+                        class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Create Tenant</a>
+                </div>
+            </div>
         </nav>
     </div>
 
