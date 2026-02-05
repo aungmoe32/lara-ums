@@ -1,25 +1,17 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Models\Tenant;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/create', function () {
+    $tenant1 = Tenant::create(['id' => 'foo']);
+    $tenant1->domains()->create(['domain' => 'foo.laraums.test']);
+    return 1;
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::resource('roles', App\Http\Controllers\RoleController::class);
-    Route::resource('permissions', App\Http\Controllers\PermissionController::class);
-    Route::resource('features', App\Http\Controllers\FeatureController::class);
-    Route::resource('users', App\Http\Controllers\UserController::class);
+Route::get('/delete', function () {
+    $tenant1 = App\Models\Tenant::find('foo');
+    $tenant1->delete();
+    return 1;
 });
-
-require __DIR__ . '/auth.php';
