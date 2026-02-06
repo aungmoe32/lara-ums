@@ -76,11 +76,9 @@ class TenantController extends Controller
     public function update(TenantUpdateRequest $request, Tenant $tenant): RedirectResponse
     {
         $tenant->update([
-            'data' => [
-                'name' => $request->name,
-                'email' => $request->email,
-                'description' => $request->description,
-            ],
+            'name' => $request->name,
+            'email' => $request->email,
+            'description' => $request->description,
         ]);
 
         // Update domain if provided
