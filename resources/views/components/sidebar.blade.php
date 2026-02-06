@@ -10,7 +10,7 @@
 
 
             <!-- Tenants Section - Only show in central app for superusers -->
-            @if (!tenant() && auth()->user()?->email === 'admin@example.com')
+            @if (!tenant())
                 <div x-data="{ open: true }" class="mb-2">
                     <button @click="open = !open"
                         class="w-full flex items-center py-2 px-4 text-white hover:bg-gray-800 rounded-md">
