@@ -20,8 +20,8 @@
                                 d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-2m-14 0h2m-2 0h-2m2 0V9a2 2 0 012-2h2a2 2 0 012 2v10" />
                         </svg>
                         <span class="flex-1 text-left">Tenants</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform"
-                            :class="{ 'rotate-180': open }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform" :class="{ 'rotate-180': open }"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
@@ -30,6 +30,27 @@
                             class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Tenant List</a>
                         <a href="{{ route('tenants.create') }}"
                             class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Create Tenant</a>
+                    </div>
+                </div>
+
+                <!-- Modules Section - Only show in central app for superusers -->
+                <div x-data="{ open: true }" class="mb-2">
+                    <button @click="open = !open"
+                        class="w-full flex items-center py-2 px-4 text-white hover:bg-gray-800 rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                        <span class="flex-1 text-left">Modules</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform" :class="{ 'rotate-180': open }"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div x-show="open" class="pl-4">
+                        <a href="{{ route('modules.index') }}"
+                            class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Module List</a>
                     </div>
                 </div>
             @else
@@ -43,8 +64,8 @@
                                 d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
                         <span class="flex-1 text-left">Users</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform"
-                            :class="{ 'rotate-180': open }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform" :class="{ 'rotate-180': open }"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
@@ -70,8 +91,8 @@
                                 d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
                         <span class="flex-1 text-left">Roles</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform"
-                            :class="{ 'rotate-180': open }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform" :class="{ 'rotate-180': open }"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>

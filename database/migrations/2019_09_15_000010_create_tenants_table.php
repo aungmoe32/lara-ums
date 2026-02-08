@@ -16,12 +16,15 @@ class CreateTenantsTable extends Migration
     public function up(): void
     {
         Schema::create('tenants', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->string('id')->primary(); // Tenant UUID (e.g., 'foo')
 
-            // your custom columns may go here
+            // Core Tenancy Data
+            $table->json('data')->nullable(); // Additional metadata
+
+            // Stores: ['Blog', 'Shop'] or {'Blog': {'version': '1.1', 'installed_at': '...'}}
+            $table->json('installed_modules')->nullable();
 
             $table->timestamps();
-            $table->json('data')->nullable();
         });
     }
 
