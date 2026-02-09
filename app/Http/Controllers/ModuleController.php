@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use ZipArchive;
+use Nwidart\Modules\Facades\Module as NwidartModule;
 
 class ModuleController extends Controller
 {
@@ -124,6 +125,12 @@ class ModuleController extends Controller
                 'price' => $moduleInfo->price ?? 0.00,
             ]);
 
+            // Sync with modules_statuses.json - Default to disabled
+            $nwidartModule = NwidartModule::find($moduleName);
+            if ($nwidartModule) {
+                $nwidartModule->disable();
+            }
+
             return redirect()->route('modules.index')
                 ->with('success', "Module '{$moduleName}' was successfully uploaded and created.");
 
@@ -142,6 +149,17 @@ class ModuleController extends Controller
     {
         $module->is_active = !$module->is_active;
         $module->save();
+
+        // Sync with modules_statuses.json
+        $nwidartModule = NwidartModule::find($module->name);
+
+        if ($nwidartModule) {
+            if ($module->is_active) {
+                $nwidartModule->enable();
+            } else {
+                $nwidartModule->disable();
+            }
+        }
 
         $status = $module->is_active ? 'enabled' : 'disabled';
 
