@@ -18,7 +18,7 @@ class ModuleSeeder extends Seeder
             'version' => '1.0.0',
             'description' => 'Blog module',
             'is_active' => true,
-            'icon_path' => 'blog.png',
+            'icon_path' => null,
             'price' => 0.00,
         ]);
     }

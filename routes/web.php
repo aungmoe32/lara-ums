@@ -21,6 +21,8 @@ Route::middleware('auth')->group(function () {
 
     // Module management routes
     Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index');
+    Route::get('/modules/create', [ModuleController::class, 'create'])->name('modules.create');
+    Route::post('/modules', [ModuleController::class, 'store'])->name('modules.store');
     Route::post('/modules/{module}/toggle', [ModuleController::class, 'toggleStatus'])->name('modules.toggle');
 });
 
