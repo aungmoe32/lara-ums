@@ -64,6 +64,14 @@
                                             <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
                                                 Pending Approval
                                             </span>
+                                        @elseif(in_array($module->name, $approvedRequests))
+                                            <form action="{{ route('tenant.modules.install') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="module_name" value="{{ $module->name }}">
+                                                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors text-sm font-medium">
+                                                    Install
+                                                </button>
+                                            </form>
                                         @else
                                             <form action="{{ route('tenant.modules.request') }}" method="POST">
                                                 @csrf

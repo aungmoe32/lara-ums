@@ -49,6 +49,7 @@ Route::middleware([
         // Tenant Module Requests
         Route::get('/modules', [App\Http\Controllers\Tenant\ModuleRequestController::class, 'index'])->name('tenant.modules.index');
         Route::post('/modules/request', [App\Http\Controllers\Tenant\ModuleRequestController::class, 'store'])->name('tenant.modules.request');
+        Route::post('/modules/install', [App\Http\Controllers\Tenant\ModuleRequestController::class, 'install'])->name('tenant.modules.install');
     });
 
     require __DIR__ . '/auth.php';

@@ -27,20 +27,7 @@ class ModuleRequestController extends Controller
 
         $moduleRequest->update(['status' => 'approved']);
 
-        // Add to Tenant's installed_modules data column 
-        $tenant = $moduleRequest->tenant;
-        if ($tenant) {
-            $installed = $tenant->installed_modules ?? [];
-            if (!in_array($moduleRequest->module_name, $installed)) {
-                $installed[] = $moduleRequest->module_name;
-                $tenant->update(['installed_modules' => $installed]);
-            }
-
-            // Dispatch job to run migrations/seeders for this module on this tenant
-            \App\Jobs\InstallTenantModule::dispatch($tenant, $moduleRequest->module_name);
-        }
-
-        return back()->with('success', 'Module request approved and installation job dispatched.');
+        return back()->with('success', 'Module request approved. Tenant can now install the module.');
     }
 
     public function reject(ModuleRequest $moduleRequest)
