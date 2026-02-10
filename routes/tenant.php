@@ -45,6 +45,10 @@ Route::middleware([
         Route::resource('permissions', App\Http\Controllers\PermissionController::class);
         Route::resource('features', App\Http\Controllers\FeatureController::class);
         Route::resource('users', App\Http\Controllers\UserController::class);
+
+        // Tenant Module Requests
+        Route::get('/modules', [App\Http\Controllers\Tenant\ModuleRequestController::class, 'index'])->name('tenant.modules.index');
+        Route::post('/modules/request', [App\Http\Controllers\Tenant\ModuleRequestController::class, 'store'])->name('tenant.modules.request');
     });
 
     require __DIR__ . '/auth.php';

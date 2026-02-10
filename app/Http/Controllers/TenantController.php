@@ -11,9 +11,6 @@ use Illuminate\Http\RedirectResponse;
 
 class TenantController extends Controller
 {
-    /**
-     * Display a listing of the tenants.
-     */
     public function index(): View
     {
         $tenants = Tenant::with('domains')->paginate(15);
@@ -21,17 +18,11 @@ class TenantController extends Controller
         return view('tenant.index', compact('tenants'));
     }
 
-    /**
-     * Show the form for creating a new tenant.
-     */
     public function create(): View
     {
         return view('tenant.create');
     }
 
-    /**
-     * Store a newly created tenant in storage.
-     */
     public function store(TenantStoreRequest $request): RedirectResponse
     {
         $tenant = Tenant::create([
@@ -50,9 +41,6 @@ class TenantController extends Controller
             ->with('success', 'Tenant created successfully.');
     }
 
-    /**
-     * Display the specified tenant.
-     */
     public function show(Tenant $tenant): View
     {
         $tenant->load('domains');
@@ -60,9 +48,6 @@ class TenantController extends Controller
         return view('tenant.show', compact('tenant'));
     }
 
-    /**
-     * Show the form for editing the specified tenant.
-     */
     public function edit(Tenant $tenant): View
     {
         $tenant->load('domains');
@@ -70,9 +55,6 @@ class TenantController extends Controller
         return view('tenant.edit', compact('tenant'));
     }
 
-    /**
-     * Update the specified tenant in storage.
-     */
     public function update(TenantUpdateRequest $request, Tenant $tenant): RedirectResponse
     {
         $tenant->update([
@@ -95,9 +77,7 @@ class TenantController extends Controller
             ->with('success', 'Tenant updated successfully.');
     }
 
-    /**
-     * Remove the specified tenant from storage.
-     */
+
     public function destroy(Tenant $tenant): RedirectResponse
     {
         $tenant->delete();

@@ -24,6 +24,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/modules/create', [ModuleController::class, 'create'])->name('modules.create');
     Route::post('/modules', [ModuleController::class, 'store'])->name('modules.store');
     Route::post('/modules/{module}/toggle', [ModuleController::class, 'toggleStatus'])->name('modules.toggle');
+
+    // Central Module Requests
+    Route::get('/module-requests', [App\Http\Controllers\ModuleRequestController::class, 'index'])->name('module-requests.index');
+    Route::post('/module-requests/{moduleRequest}/approve', [App\Http\Controllers\ModuleRequestController::class, 'approve'])->name('module-requests.approve');
+    Route::post('/module-requests/{moduleRequest}/reject', [App\Http\Controllers\ModuleRequestController::class, 'reject'])->name('module-requests.reject');
 });
 
 require __DIR__ . '/auth.php';

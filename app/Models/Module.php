@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Module extends Model
 {
+    protected $connection = 'mysql';
+
     protected $fillable = [
         'name',
         'version',

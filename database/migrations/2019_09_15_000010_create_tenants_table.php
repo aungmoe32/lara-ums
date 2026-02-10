@@ -22,7 +22,7 @@ class CreateTenantsTable extends Migration
             $table->json('data')->nullable(); // Additional metadata
 
             // Stores: ['Blog', 'Shop'] or {'Blog': {'version': '1.1', 'installed_at': '...'}}
-            $table->json('installed_modules')->nullable();
+            // $table->json('installed_modules')->nullable();
 
             $table->timestamps();
         });

@@ -51,9 +51,32 @@
                     <div x-show="open" class="pl-4">
                         <a href="{{ route('modules.index') }}"
                             class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Module List</a>
+                        <a href="{{ route('module-requests.index') }}"
+                            class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Module Requests</a>
                     </div>
                 </div>
             @else
+                <!-- Tenant Module Section -->
+                <div x-data="{ open: true }" class="mb-2">
+                    <button @click="open = !open"
+                        class="w-full flex items-center py-2 px-4 text-white hover:bg-gray-800 rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                        <span class="flex-1 text-left">Modules</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform" :class="{ 'rotate-180': open }"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div x-show="open" class="pl-4">
+                        <a href="{{ route('tenant.modules.index') }}"
+                            class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 rounded-md">Available Modules</a>
+                    </div>
+                </div>
+
                 <!-- Users Section -->
                 <div x-data="{ open: true }" class="mb-2">
                     <button @click="open = !open"
