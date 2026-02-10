@@ -62,7 +62,7 @@ class InstallTenantModule implements ShouldQueue
             Artisan::call('module:seed', ['module' => $moduleName, '--force' => true]);
 
             // Publish Assets
-            Artisan::call('module:publish', ['module' => $moduleName]);
+            // Artisan::call('module:publish', ['module' => $moduleName]);
 
             // Clear optimization cache
             Artisan::call('optimize:clear');
