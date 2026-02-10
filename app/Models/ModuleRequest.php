@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
-use Stancl\Tenancy\Database\Models\Tenant;
 
 class ModuleRequest extends Model
 {

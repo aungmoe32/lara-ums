@@ -27,7 +27,7 @@ class ModuleRequestController extends Controller
 
         $moduleRequest->update(['status' => 'approved']);
 
-        // Add to Tenant's installed_modules data column
+        // Add to Tenant's installed_modules data column 
         $tenant = $moduleRequest->tenant;
         if ($tenant) {
             $installed = $tenant->installed_modules ?? [];
@@ -35,12 +35,12 @@ class ModuleRequestController extends Controller
                 $installed[] = $moduleRequest->module_name;
                 $tenant->update(['installed_modules' => $installed]);
             }
+
+            // Dispatch job to run migrations/seeders for this module on this tenant
+            \App\Jobs\InstallTenantModule::dispatch($tenant, $moduleRequest->module_name);
         }
 
-        // Dispatch job to run migrations/seeders for this module on this tenant
-        // InstallTenantModule::dispatch($tenant, $moduleRequest->module_name);
-
-        return back()->with('success', 'Module request approved and module added to tenant.');
+        return back()->with('success', 'Module request approved and installation job dispatched.');
     }
 
     public function reject(ModuleRequest $moduleRequest)
