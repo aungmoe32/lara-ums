@@ -97,4 +97,26 @@ class ModuleRequestController extends Controller
 
         return back()->with('success', "Module '{$moduleName}' installation job dispatched.");
     }
+
+    public function uninstall(Request $request)
+    {
+        $request->validate([
+            'module_name' => 'required|string',
+        ]);
+
+        $moduleName = $request->input('module_name');
+        $tenant = tenant();
+
+        $installed = $tenant->installed_modules ?? [];
+        if (!in_array($moduleName, $installed)) {
+            return back()->with('error', "Module '{$moduleName}' is not installed.");
+        }
+
+        $installed = array_values(array_diff($installed, [$moduleName]));
+        $tenant->update(['installed_modules' => $installed]);
+
+        \App\Jobs\UninstallTenantModule::dispatch($tenant, $moduleName);
+
+        return back()->with('success', "Module '{$moduleName}' uninstallation job dispatched.");
+    }
 }

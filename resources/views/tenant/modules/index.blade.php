@@ -57,9 +57,18 @@
                                         </span>
 
                                         @if(in_array($module->name, $installedModules))
-                                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-                                                Installed
-                                            </span>
+                                            <div class="flex items-center gap-3">
+                                                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                                                    Installed
+                                                </span>
+                                                <form action="{{ route('tenant.modules.uninstall') }}" method="POST" onsubmit="return confirm('Are you sure you want to uninstall this module? This will delete all data associated with the module.');">
+                                                    @csrf
+                                                    <input type="hidden" name="module_name" value="{{ $module->name }}">
+                                                    <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium hover:underline">
+                                                        Uninstall
+                                                    </button>
+                                                </form>
+                                            </div>
                                         @elseif(in_array($module->name, $pendingRequests))
                                             <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
                                                 Pending Approval
