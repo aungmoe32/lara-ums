@@ -2,7 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Product\Http\Controllers\ProductController;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('products', ProductController::class)->names('product');
+Route::middleware([
+    InitializeTenancyByDomain::class,
+    PreventAccessFromCentralDomains::class,
+    'module:Product'
+])->group(function () {
+    Route::group(['middleware' => 'auth'], function () {
+        Route::resource('products', ProductController::class)->names('product');
+    });
 });

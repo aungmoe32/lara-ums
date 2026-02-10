@@ -1,9 +1,9 @@
 {{--
-    @extends('layouts.app')
+@extends('layouts.app')
 
-    @section('content')
-        user.index template
-    @endsection
+@section('content')
+user.index template
+@endsection
 --}}
 
 @extends('layouts.app')
@@ -75,8 +75,7 @@
                                                         class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Edit</a>
                                                 @endcan
                                                 @can('delete', $user)
-                                                    <form method="POST" action="{{ route('users.destroy', $user) }}"
-                                                        class="inline"
+                                                    <form method="POST" action="{{ route('users.destroy', $user) }}" class="inline"
                                                         onsubmit="return confirm('Are you sure you want to delete this user?');">
                                                         @csrf
                                                         @method('DELETE')
@@ -89,8 +88,8 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5"
-                                            class="py-4 px-4 text-sm text-gray-500 dark:text-gray-400 text-center">No users
+                                        <td colspan="5" class="py-4 px-4 text-sm text-gray-500 dark:text-gray-400 text-center">
+                                            No users
                                             found.</td>
                                     </tr>
                                 @endforelse
