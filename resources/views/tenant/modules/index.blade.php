@@ -90,7 +90,13 @@
                                                 </button>
                                             </form>
                                         @endif
+                                        
                                     </div>
+                                    @if(in_array($module->name, $installedModules))
+                                        <a href="{{ route(strtolower($module->name) . '.index') }}" class="text-green-400 hover:text-indigo-900 text-sm font-medium">
+                                            Go to Module &rarr;
+                                        </a>
+                                    @endif
                                 </div>
                             @endforeach
                         </div>
