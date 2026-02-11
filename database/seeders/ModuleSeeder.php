@@ -14,9 +14,9 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         Module::create([
-            'name' => 'Blog',
+            'name' => 'Product',
             'version' => '1.0.0',
-            'description' => 'Blog module',
+            'description' => 'Product module',
             'is_active' => true,
             'icon_path' => null,
             'price' => 0.00,
