@@ -1,62 +1,66 @@
-# Multi Tenant User Management System (UMS)
+# Multi Tenant Module System
 
-Multi-tenant user management system with roles and permissions. Each tenant gets their own database.
+A professional **Multi-Tenant Module System** built with Laravel, featuring separate databases per tenant and a modular feature architecture.
 
 ## Features
 
-- Multi-tenancy (separate database per tenant)
-- User management
-- Roles and permissions
-- Authentication
+- **Multi-Tenancy**: Automated database isolation using `stancl/tenancy`.
+- **Modular Design**: Extensible feature management using `nwidart/laravel-modules`.
+- **RBAC**: Role-Based Access Control (Roles & Permissions).
+- **Central Admin**: Manage tenants, module requests, and module settings from a central dashboard.
+- **Tenant Module**: Manage modules from a tenant dashboard.
+- **Middleware**: Tenant and module middleware to ensure that only authorized users can access tenant-specific routes.
 
 ## Requirements
 
-- PHP 8.2+
-- Composer
-- Node.js & NPM
-- MySQL
+- **PHP** 8.2+
+- **MySQL** 8.0+
+- **Node.js & NPM**
 
-## Installation
+## Quick Start
 
 ```bash
-# Clone and install
-git clone https://github.com/yourusername/lara-ums.git
-cd lara-ums
+# 1. Install dependencies
 composer install
 npm install
 
-# Setup
+# 2. Environment setup
 cp .env.example .env
 php artisan key:generate
 
-# Configure .env
-DB_DATABASE=lara_ums_central
-TENANCY_CENTRAL_DOMAIN=localhost
-
-# Run
+# 3. Database setup (Configure .env first)
 php artisan migrate --seed
 npm run build
+# for development
+npm run dev
+
+# 4. Launch
 php artisan serve
+
+# 5. Queue
+php artisan queue:work
 ```
 
-Visit `http://localhost:8000`
+## Default Credentials
 
-## Usage
+- **URL**: `http://localhost:8000`
+- **User**: `superadmin@example.com`
+- **Pass**: `password`
 
-### Default Login
+**Tenant Credentials**
 
-- Email: `superadmin@example.com`
-- Password: `password`
+- **URL**: `http://tenant1.localhost`
+- **User**: `admin@example.com`
+- **Pass**: `password`
 
-### How It Works
+## Multi-Tenant Workflow
 
-**Central App** (localhost) - Manage tenants here
+- **Central App**: Manage your tenants at the default domain.
+- **Tenant Domains**: Each tenant operates on their own subdomain/domain (e.g., `tenant1.localhost`).
+- **Module Request**: Request modules from the central app.
+- **Module Installation**: Install modules from the tenant app.
+- **Module Uninstallation**: Uninstall modules from the tenant app.
 
-**Tenant Apps** (tenant domains e.g `company.local`) - Each tenant has separate users, roles, and data
+---
 
-### Tenant Commands
-
-```bash
-php artisan tenants:migrate    # Run migrations for all tenants
-php artisan tenants:seed        # Seed tenant databases
-```
+_Built with Laravel 12, Tenancy for Laravel, and Laravel Modules._
