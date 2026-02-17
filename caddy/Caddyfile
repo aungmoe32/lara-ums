@@ -1,3 +1,15 @@
-bartarpyan.site {
+# Block A: Root + Wildcard
+bartarpyan.site, *.bartarpyan.site {
+    # Use the static file from Cloudflare (valid for 15 years)
+    tls /data/certs/cert.pem /data/certs/key.pem
+
+    reverse_proxy nginx:80
+}
+
+# Block B: Custom Domains (MUST be Grey Cloud / DNS Only in Cloudflare)
+:443 {
+    tls {
+        on_demand
+    }
     reverse_proxy nginx:80
 }

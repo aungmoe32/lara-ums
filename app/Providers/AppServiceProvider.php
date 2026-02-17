@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +26,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('manage-feature', function ($user, $feature, $permission) {
             return $user->hasFeaturePermission($permission, $feature);
         });
+        if (env('APP_ENV') === 'production') { // Optional: apply only in production
+            URL::forceScheme('https');
+        }
     }
 }
