@@ -29,7 +29,7 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -T app php 
 # Clear and Rebuild Caches
 echo " Optimizing Cache..."
 docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -T app php artisan optimize:clear
-docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -T app php artisan optimize
+# docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -T app php artisan optimize
 # docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -T app php artisan view:cache
 
 # Restart Queue Workers

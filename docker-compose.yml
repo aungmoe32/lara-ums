@@ -4,7 +4,7 @@ services:
         # define the build context here, but NOT the target (see overrides)
         build:
             context: .
-        container_name: laravel_app
+        container_name: app
         restart: unless-stopped
         working_dir: /var/www
         networks:
