@@ -18,12 +18,5 @@ services:
       # Mount the public files from the app container
       - web_assets:/var/www/public
 
-  mysql:
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
 volumes:
   web_assets:
