@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      target: production # USES STAGE 4 (Clean, Tiny, No Node/Git)
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+    volumes:
+      # Only mount the .env file and storage
+      - ./.env:/var/www/.env
+      # Persist storage
+      - ./storage:/var/www/storage
+      # Persist Public Assets for nginx
+      - web_assets:/var/www/public
+
+  nginx:
+    volumes:
+      # Mount the public files from the app container
+      - web_assets:/var/www/public
+
+  mysql:
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  web_assets:

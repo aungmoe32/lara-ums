@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermissionController;
+use Modules\Product\Models\Product;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
@@ -22,6 +23,17 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 | Feel free to customize them however you want. Good luck!
 |
 */
+use Stancl\Tenancy\Middleware\InitializeTenancyByPath;
+
+Route::group([
+    'prefix' => '/{tenant}',
+    'middleware' => [InitializeTenancyByPath::class],
+], function () {
+    Route::get('/foo', function () {
+        dd(Product::all());
+        return 'foo';
+    })->name('foo');
+});
 
 Route::middleware([
     'web',

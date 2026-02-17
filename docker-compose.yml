@@ -1,0 +1,85 @@
+services:
+    # Laravel Application
+    app:
+        # define the build context here, but NOT the target (see overrides)
+        build:
+            context: .
+        container_name: laravel_app
+        restart: unless-stopped
+        working_dir: /var/www
+        networks:
+            - laravel
+        depends_on:
+            - mysql
+            - redis
+
+    nginx:
+        image: nginx:alpine
+        container_name: nginx
+        restart: unless-stopped
+        # ports:
+        # define the generic internal mapping here
+        # The external port (80 vs 8080) is handled in overrides
+        # - "80"
+        volumes:
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+            # Nginx needs to see public files (we mount them differently in Dev vs Prod)
+        networks:
+            - laravel
+            - web_network
+        depends_on:
+            - app
+    caddy:
+        image: caddy:2.6.4-alpine
+        container_name: caddy
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+        networks:
+            - web_network
+
+    # The Database
+    mysql:
+        image: mysql:8.0
+        container_name: mysql
+        restart: always
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            # MYSQL_PASSWORD: ${DB_PASSWORD}
+            # MYSQL_USER: ${DB_USERNAME}
+        volumes:
+            - db_data:/var/lib/mysql
+        networks:
+            - laravel
+
+    # The Cache
+    redis:
+        image: redis:alpine
+        container_name: redis
+        networks:
+            - laravel
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        ports:
+            - "9000:80"
+        environment:
+            PMA_HOST: mysql
+            MYSQL_ROOT_PASSWORD: password
+        depends_on:
+            - mysql
+        networks:
+            - laravel
+
+networks:
+    laravel:
+        driver: bridge
+    web_network:
+        driver: bridge
+
+volumes:
+    db_data:

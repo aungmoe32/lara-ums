@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      target: dev # USES STAGE 2
+    volumes:
+      - ./:/var/www # LIVE CODE SYNC
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+
+  nginx:
+    # ports:
+    #   - "8080:80" # Localhost:8080
+    volumes:
+      - ./:/var/www # Nginx sees your live changes too
+
+  mysql:
+    ports:
+      - "3306:3306" # Open port for TablePlus
