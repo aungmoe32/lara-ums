@@ -36,7 +36,7 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+            - ./caddy:/etc/caddy
             # Persist Caddy's data (certs, etc.) in a named volume
             - caddy_data:/data
 
