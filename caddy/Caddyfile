@@ -1,3 +1,15 @@
+{
+    # Global Option: On-Demand TLS for Custom Domains
+    on_demand_tls {
+        # Caddy asks this URL before issuing a cert
+        ask http://nginx:80/api/caddy-check
+        
+        # Rate limits to prevent attacks
+        interval 2m
+        burst 5
+    }
+}
+
 # Block A: Root + Wildcard
 bartarpyan.site, *.bartarpyan.site {
     # Use the static file from Cloudflare (valid for 15 years)
@@ -12,4 +24,9 @@ bartarpyan.site, *.bartarpyan.site {
         on_demand
     }
     reverse_proxy nginx:80
+}
+
+:80 {
+    # Redirect HTTP to HTTPS automatically
+    redir https://{host}{uri} permanent
 }

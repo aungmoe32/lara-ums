@@ -35,6 +35,7 @@ class TenantController extends Controller
         // Create domain for the tenant
         $tenant->domains()->create([
             'domain' => $request->domain,
+            'verified_at' => now()
         ]);
 
         return redirect()->route('tenants.index')
