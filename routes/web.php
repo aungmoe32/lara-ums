@@ -1,11 +1,12 @@
 <?php
 
+use App\Models\User;
+use App\Models\Domain;
 use App\Models\Tenant;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TenantController;
 use App\Http\Controllers\ModuleController;
-use App\Models\User;
+use App\Http\Controllers\TenantController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return redirect()->route('tenants.index');
@@ -38,7 +39,7 @@ Route::middleware('auth')->group(function () {
 | This endpoint is called by Caddy server to verify if a domain is
 | authorized for automatic SSL certificate issuance.
 */
-Route::get('/api/caddy-check', function (Illuminate\Http\Request $request) {
+Route::domain('')->get('/caddy-check', function (Illuminate\Http\Request $request) {
     $domainName = $request->query('domain');
 
     if (!$domainName) {
@@ -46,7 +47,7 @@ Route::get('/api/caddy-check', function (Illuminate\Http\Request $request) {
     }
 
     // Check if domain exists in DB and is VERIFIED
-    $exists = Stancl\Tenancy\Database\Models\Domain::where('domain', $domainName)
+    $exists = Domain::where('domain', $domainName)
         ->whereNotNull('verified_at')
         ->exists();
 

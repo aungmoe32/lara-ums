@@ -2,7 +2,7 @@
     # Global Option: On-Demand TLS for Custom Domains
     on_demand_tls {
         # Caddy asks this URL before issuing a cert
-        ask http://nginx:80/api/caddy-check
+        ask http://nginx:80/caddy-check
         
         # Rate limits to prevent attacks
         interval 2m
