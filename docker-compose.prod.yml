@@ -17,6 +17,9 @@ services:
     volumes:
       # Mount the public files from the app container
       - web_assets:/var/www/public
+    networks:
+      - laravel
+      - web_network
 
 volumes:
   web_assets:

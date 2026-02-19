@@ -26,22 +26,8 @@ services:
             # Nginx needs to see public files (we mount them differently in Dev vs Prod)
         networks:
             - laravel
-            - web_network
         depends_on:
             - app
-    caddy:
-        image: caddy:2.6.4-alpine
-        container_name: caddy
-        ports:
-            - "80:80"
-            - "443:443"
-        volumes:
-            - ./caddy:/etc/caddy
-            # Persist Caddy's data (certs, etc.) in a named volume
-            - caddy_data:/data
-
-        networks:
-            - web_network
 
     # The Database
     mysql:
@@ -86,9 +72,6 @@ services:
 networks:
     laravel:
         driver: bridge
-    web_network:
-        driver: bridge
 
 volumes:
     db_data:
-    caddy_data:
