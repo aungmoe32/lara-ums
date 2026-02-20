@@ -9,10 +9,8 @@ class Domain extends \Stancl\Tenancy\Database\Models\Domain
     protected $fillable = [
         'domain',
         'tenant_id',
-        'verified_at',
-        'verification_code'
-    ];
-    protected $casts = [
-        'verified_at' => 'datetime',
+        'cloudflare_id',
+        'status',      // result.status       — hostname routing (active, moved...)
+        'ssl_status',  // result.ssl.status   — SSL cert (pending_validation, active...)
     ];
 }

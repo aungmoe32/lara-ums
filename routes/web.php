@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\User;
-use App\Models\Domain;
-use App\Models\Tenant;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\TenantController;
@@ -30,40 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/module-requests', [App\Http\Controllers\ModuleRequestController::class, 'index'])->name('module-requests.index');
     Route::post('/module-requests/{moduleRequest}/approve', [App\Http\Controllers\ModuleRequestController::class, 'approve'])->name('module-requests.approve');
     Route::post('/module-requests/{moduleRequest}/reject', [App\Http\Controllers\ModuleRequestController::class, 'reject'])->name('module-requests.reject');
-});
-
-/*
-|--------------------------------------------------------------------------
-| Caddy Domain Verification Endpoint
-|--------------------------------------------------------------------------
-| This endpoint is called by Caddy server to verify if a domain is
-| authorized for automatic SSL certificate issuance.
-*/
-Route::domain('')->get('/caddy-check', function (Illuminate\Http\Request $request) {
-    $domainName = $request->query('domain');
-
-    if (!$domainName) {
-        return response('Domain parameter required', 400);
-    }
-
-    // Check if domain exists in DB and is VERIFIED
-    $exists = Domain::where('domain', $domainName)
-        ->whereNotNull('verified_at')
-        ->exists();
-
-    if ($exists) {
-        return response('OK', 200);
-    }
-
-    // Also allow central domains (critical!)
-    $centralDomains = config('tenancy.central_domains', []);
-    foreach ($centralDomains as $centralDomain) {
-        if ($domainName === $centralDomain || str_ends_with($domainName, '.' . $centralDomain)) {
-            return response('OK', 200);
-        }
-    }
-
-    return response('Unauthorized', 404);
 });
 
 require __DIR__ . '/auth.php';

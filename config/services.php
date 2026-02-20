@@ -35,4 +35,19 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Cloudflare for SaaS (Custom Hostnames)
+    |--------------------------------------------------------------------------
+    | zone_id         — The Zone ID of your SaaS domain in Cloudflare.
+    | api_token       — A scoped API token with "Custom Hostnames: Edit" permission.
+    | fallback_origin — The fallback origin set in CF > SSL/TLS > Custom Hostnames
+    |                   (e.g. app.yoursaas.com). Shown to tenants for their CNAME.
+    */
+    'cloudflare' => [
+        'zone_id'         => env('CLOUDFLARE_ZONE_ID'),
+        'api_token'       => env('CLOUDFLARE_API_TOKEN'),
+        'fallback_origin' => env('CLOUDFLARE_FALLBACK_ORIGIN', 'app.bartarpyan.site'),
+    ],
+
 ];
