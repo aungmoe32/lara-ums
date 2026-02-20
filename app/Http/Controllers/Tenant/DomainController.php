@@ -59,16 +59,20 @@ class DomainController extends Controller
         }
 
         // 2. Parse both statuses from the response
-        $hostStatus = $result['result']['status']       ?? 'pending_validation'; // hostname routing
-        $sslStatus  = $result['result']['ssl']['status'] ?? 'pending_validation'; // SSL cert
+        $hostStatus = $result['result']['status']        ?? 'pending_validation';
+        $sslStatus  = $result['result']['ssl']['status'] ?? 'pending_validation';
 
-        // 3. Persist to the central DB
+        // 3. Persist to the central DB.
+        //    Automatically set as primary if this is the tenant's first custom domain.
         $domain = Tenancy::central(function () use ($domainName, $tenant, $result, $hostStatus, $sslStatus) {
+            $isFirst = $tenant->domains()->count() === 0;
+
             return $tenant->domains()->create([
                 'domain'        => $domainName,
                 'cloudflare_id' => $result['result']['id'],
                 'status'        => $hostStatus,
                 'ssl_status'    => $sslStatus,
+                'is_primary'    => $isFirst, // first domain is always primary
             ]);
         });
 
@@ -98,7 +102,7 @@ class DomainController extends Controller
     {
         $this->authorizeDomain($domain);
 
-        if ($this->isFullyActive($domain)) {
+        if ($domain->isFullyActive()) {
             return back()->with('info', 'This domain is already active with SSL.');
         }
 
@@ -113,7 +117,7 @@ class DomainController extends Controller
         }
 
         $hostStatus = $result['result']['status']        ?? 'pending_validation';
-        $sslStatus  = $result['result']['ssl']['status']  ?? 'pending_validation';
+        $sslStatus  = $result['result']['ssl']['status'] ?? 'pending_validation';
 
         $domain->update([
             'status'     => $hostStatus,
@@ -133,13 +137,42 @@ class DomainController extends Controller
 
             $hint = $sslErrors
                 ? "SSL note: {$sslErrors}"
-                : "Cloudflare is still issuing your SSL certificate. Check back in a few minutes.";
+                : "Cloudflare is still issuing the SSL certificate. Check back in a few minutes.";
 
-            return back()->with('warning', "Hostname is routed ✓ — {$hint}");
+            return back()->with('warning', "Hostname is routed — {$hint}");
         }
 
-        // Hostname not yet resolved
-        return back()->with('warning', "Hostname status: '{$hostStatus}', SSL status: '{$sslStatus}'. Please ensure your CNAME is pointing to " . config('services.cloudflare.fallback_origin') . ".");
+        return back()->with('warning', "Hostname status: '{$hostStatus}', SSL status: '{$sslStatus}'. Ensure your CNAME points to " . config('services.cloudflare.fallback_origin') . ".");
+    }
+
+    /**
+     * Set this domain as the tenant's primary (canonical) domain.
+     *
+     * Enforces the "Highlander Rule": only one domain can be primary.
+     * All other domains are demoted automatically.
+     */
+    public function setPrimary(Domain $domain)
+    {
+        $this->authorizeDomain($domain);
+
+        // Only a fully active domain can be set as primary
+        if (!$domain->isFullyActive()) {
+            return back()->with('error', 'Only a domain with active hostname and SSL can be set as primary.');
+        }
+
+        Tenancy::central(function () use ($domain) {
+            $tenantId = $domain->tenant_id;
+
+            // 1. Demote ALL domains of this tenant
+            Domain::where('tenant_id', $tenantId)->update(['is_primary' => false]);
+
+            // 2. Promote only this one
+            $domain->update(['is_primary' => true]);
+        });
+
+        return redirect()
+            ->route('domains.index')
+            ->with('success', "'{$domain->domain}' is now your primary domain. All other domains will redirect here.");
     }
 
     /**
@@ -149,10 +182,15 @@ class DomainController extends Controller
     {
         $this->authorizeDomain($domain);
 
+        if ($domain->is_primary) {
+            return back()->with('error', 'Cannot delete the primary domain. Set another domain as primary first.');
+        }
+
         if ($domain->domain === tenant()->id . '.' . config('tenancy.central_domains.0')) {
             return back()->with('error', 'Cannot delete your primary subdomain.');
         }
 
+        // Remove from Cloudflare first
         if ($domain->cloudflare_id) {
             $this->cloudflare->deleteHostname($domain->cloudflare_id);
         }
@@ -166,11 +204,8 @@ class DomainController extends Controller
 
     /**
      * Domain is fully live when BOTH the hostname routing AND the SSL cert are active.
+     * Delegates to the model helper.
      */
-    private function isFullyActive(Domain $domain): bool
-    {
-        return $domain->status === 'active' && $domain->ssl_status === 'active';
-    }
 
     /**
      * Ensure the domain belongs to the currently authenticated tenant.

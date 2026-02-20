@@ -53,7 +53,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // ]);
 
         $middleware->alias([
-            'module' => \App\Http\Middleware\CheckTenantModule::class,
+            'module'    => \App\Http\Middleware\CheckTenantModule::class,
+            'canonical' => \App\Http\Middleware\CanonicalDomain::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

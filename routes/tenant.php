@@ -39,6 +39,7 @@ Route::middleware([
     'web',
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
+    'canonical', // 301-redirect secondary domains to the primary domain
 ])->group(function () {
     Route::get('/', function () {
         return redirect()->route('dashboard');
@@ -61,7 +62,8 @@ Route::middleware([
 
         // Custom Domain Management
         Route::resource('domains', App\Http\Controllers\Tenant\DomainController::class)->except(['edit', 'update']);
-        Route::post('/domains/{domain}/verify', [App\Http\Controllers\Tenant\DomainController::class, 'verify'])->name('domains.verify');
+        Route::post('/domains/{domain}/verify',      [App\Http\Controllers\Tenant\DomainController::class, 'verify'])->name('domains.verify');
+        Route::post('/domains/{domain}/set-primary', [App\Http\Controllers\Tenant\DomainController::class, 'setPrimary'])->name('domains.set-primary');
 
         // Tenant Module Requests
         Route::get('/modules', [App\Http\Controllers\Tenant\ModuleRequestController::class, 'index'])->name('tenant.modules.index');
