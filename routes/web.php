@@ -29,4 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/module-requests/{moduleRequest}/reject', [App\Http\Controllers\ModuleRequestController::class, 'reject'])->name('module-requests.reject');
 });
 
+Route::get('/error', function () {
+    throw new Exception('This is a test error!');
+});
+
 require __DIR__ . '/auth.php';

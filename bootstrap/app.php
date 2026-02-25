@@ -1,5 +1,6 @@
 <?php
 
+use Sentry\Laravel\Integration;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -58,5 +59,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->report(function (Exception $e) {
+            Integration::captureUnhandledException($e);
+        });
     })->create();
