@@ -41,6 +41,8 @@ services:
             # MYSQL_USER: ${DB_USERNAME}
         volumes:
             - db_data:/var/lib/mysql
+            # Mount the local init_scripts directory to the container's initialization directory
+            - ./mysql-multidb/init_scripts:/docker-entrypoint-initdb.d
         networks:
             - laravel
         healthcheck:
@@ -83,9 +85,9 @@ services:
             PORT: 8000
             # DATABASE_URL: postgresql://bugsinkuser:your_super_secret_password@db:5432/bugsink # Change password to match POSTGRES_PASSWORD above
             DATABASE_URL: mysql://root:password@mysql:3306/bugsink # Change password to match POSTGRES_PASSWORD above
-            BEHIND_HTTPS_PROXY: "false" # Change this for setups behind a proxy w/ ssl enabled
+            BEHIND_HTTPS_PROXY: "true" # Change this for setups behind a proxy w/ ssl enabled
             BASE_URL: "http://bugsink:8000"
-            # BASE_URL: "https://aungmoemt.site"
+            ALLOWED_HOSTS: "localhost,bugsink,127.0.0.1,bugsink.bartarpyan.site"
         healthcheck:
             test:
                 [
