@@ -20,6 +20,10 @@ services:
     networks:
       - web_network
 
+  bugsink:
+    networks:
+      - web_network
+
 volumes:
   web_assets:
 
