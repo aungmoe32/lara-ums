@@ -65,7 +65,7 @@ services:
             - "9000:80"
         environment:
             PMA_HOST: mysql
-            MYSQL_ROOT_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
         depends_on:
             - mysql
         networks:
@@ -80,14 +80,13 @@ services:
         ports:
             - "8000:8000"
         environment:
-            SECRET_KEY: LyUE4pBKSR9rp20/oWGbbeqbEJLUIrOoGhiSqQflFYpIX27Oh9WHAqxSNwnSWIwMK+w= # Change this (and remove django-insecure prefix), e.g. openssl rand -base64 50
-            CREATE_SUPERUSER: admin:password # Change this (or remove it and execute 'createsuperuser' against the running container)
+            SECRET_KEY: ${BUGSINK_SECRET_KEY} # e.g. openssl rand -base64 50
+            CREATE_SUPERUSER: ${BUGSINK_CREATE_SUPERUSER} # format: username:password (remove after first run)
             PORT: 8000
-            # DATABASE_URL: postgresql://bugsinkuser:your_super_secret_password@db:5432/bugsink # Change password to match POSTGRES_PASSWORD above
-            DATABASE_URL: mysql://root:password@mysql:3306/bugsink # Change password to match POSTGRES_PASSWORD above
+            DATABASE_URL: mysql://${DB_USERNAME}:${DB_PASSWORD}@mysql:3306/${BUGSINK_DB} # Change password to match POSTGRES_PASSWORD above
             BEHIND_HTTPS_PROXY: "true" # Change this for setups behind a proxy w/ ssl enabled
             BASE_URL: "http://bugsink:8000"
-            ALLOWED_HOSTS: "localhost,bugsink,127.0.0.1,bugsink.bartarpyan.site"
+            ALLOWED_HOSTS: "localhost,bugsink,127.0.0.1,${BUGSINK_HOST}"
         healthcheck:
             test:
                 [
